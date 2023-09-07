@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexusAop", "src\NexusAop\Ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexusAop.Console", "samples\NexusAop.Console\NexusAop.Console.csproj", "{D12BDF24-D53E-44E7-A285-83ABF0AC30DE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9DD476F7-CC4D-42DC-9041-7B4D1CCF2830}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{983DCF62-8F24-4F47-A12A-99C62939A80B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,5 +31,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4563CA94-0BBE-4116-AFE8-B356AD0D0403}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D0566AD-21FD-4ED8-93E4-D830EDB92893} = {9DD476F7-CC4D-42DC-9041-7B4D1CCF2830}
+		{D12BDF24-D53E-44E7-A285-83ABF0AC30DE} = {983DCF62-8F24-4F47-A12A-99C62939A80B}
 	EndGlobalSection
 EndGlobal
