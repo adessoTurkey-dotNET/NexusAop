@@ -1,8 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusAop", "NexusAop\NexusAop.csproj", "{5D0566AD-21FD-4ED8-93E4-D830EDB92893}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexusAop", "src\NexusAop\NexusAop.csproj", "{5D0566AD-21FD-4ED8-93E4-D830EDB92893}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusAop.Console", "NexusAop.Console\NexusAop.Console.csproj", "{D12BDF24-D53E-44E7-A285-83ABF0AC30DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexusAop.Console", "samples\NexusAop.Console\NexusAop.Console.csproj", "{D12BDF24-D53E-44E7-A285-83ABF0AC30DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +21,11 @@ Global
 		{D12BDF24-D53E-44E7-A285-83ABF0AC30DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D12BDF24-D53E-44E7-A285-83ABF0AC30DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D12BDF24-D53E-44E7-A285-83ABF0AC30DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4563CA94-0BBE-4116-AFE8-B356AD0D0403}
 	EndGlobalSection
 EndGlobal
