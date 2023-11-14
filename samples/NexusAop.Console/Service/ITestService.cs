@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NexusAop.Cache;
 using NexusAop.Console.Models;
+using NexusAop.CustomAspect;
 
 namespace NexusAop.Console.Service
 {
@@ -17,5 +18,8 @@ namespace NexusAop.Console.Service
         Task<FooEntity> GetFooAsync(
             bool isGoodNumber,
             CancellationToken cancellationToken = default);
+
+        [CustomAspect("Property1", "Value1", "Property2", 42, "Property3", true)]
+        void MyMethod();
     }
 }

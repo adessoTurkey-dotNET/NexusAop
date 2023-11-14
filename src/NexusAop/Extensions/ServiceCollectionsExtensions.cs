@@ -3,6 +3,8 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using NexusAop.Cache;
+using NexusAop.CustomAspect;
+using NexusAop.Customization;
 using NexusAop.Proxy;
 
 namespace NexusAop.Extensions
@@ -13,6 +15,7 @@ namespace NexusAop.Extensions
             this IServiceCollection services)
         {
             services.AddSingleton<INexusAopCacheService, InmemoryNexusAopCacheService>();
+            services.AddSingleton<ICustomAspectService, CustomAspectService>();
 
             return services;
         }
@@ -44,9 +47,17 @@ namespace NexusAop.Extensions
                 .DecorateWithDispatchProxy<TInterface, NexusAopProxy<TInterface>>();
         }
 
-        
+        public static IServiceCollection AddSingletonWithCustomAop<TInterface, TService>(
+            this IServiceCollection services)
+            where TInterface : class
+            where TService : class, TInterface
+        {
+            return services.AddSingleton<TInterface, TService>()
+                .DecorateWithDispatchProxy<TInterface, NexusAopCustomProxy<TInterface>>();
+        }
+
         #region Private Methods
-        
+
         private static IServiceCollection DecorateWithDispatchProxy<TInterface, TProxy>(
             this IServiceCollection services)
             where TInterface : class

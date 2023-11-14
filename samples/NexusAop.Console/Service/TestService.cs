@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NexusAop.Console.Models;
 using NexusAop.Console.Repository;
+using NexusAop.CustomAspect;
 
 namespace NexusAop.Console.Service
 {
@@ -49,6 +50,10 @@ namespace NexusAop.Console.Service
                 Id = number,
                 Text = DateTime.Now.ToLongDateString()
             };
+        }
+        public void MyMethod()
+        {
+            System.Console.WriteLine("MyMethod has custom aspect properties.");
         }
     }
 }
