@@ -12,6 +12,7 @@ using NexusAop.Console.Repository;
 using NexusAop.Console.Service;
 using NexusAop.CustomAspect;
 using NexusAop.Extensions;
+using NexusAop.Proxy;
 
 namespace NexusAop.Console
 {
@@ -34,6 +35,42 @@ namespace NexusAop.Console
 
             var svc = provider.GetRequiredService<ITestService>();
             svc.MyMethod();
+
+
+            // Setup DI
+            //var serviceProvider = new ServiceCollection()
+            //    .AddScopedeWithCustomAop<ITestService, TestService>()
+            //    .AddSingleton<IFooRepository, FooRepository>()
+            //    .AddScoped<ICustomAspectService, CustomAspectService>()
+            //    .AddLogging(configure =>
+            //    {
+            //        configure.AddConsole();
+            //        configure.SetMinimumLevel(LogLevel.Information);
+            //    })
+            //    .BuildServiceProvider();
+
+            //var myService = provider.GetRequiredService<ITestService>();
+
+            //var proxy = NexusAopCustomProxy<ITestService>.Create(
+            //    svc,
+            //    provider,
+            //    context =>
+            //    {
+            //        // User-defined logic before the target method
+            //        System.Console.WriteLine($"Custom logic before {context.TargetMethod.Name}");
+            //    },
+            //    context =>
+            //    {
+            //        // User-defined logic after the target method
+            //        System.Console.WriteLine($"Custom logic after {context.TargetMethod.Name}");
+            //    });
+
+
+            //proxy.MyMethod();
+
+            //MyTestAop aoptets = new MyTestAop();
+            //aoptets.ExecuteAsync(new NexusAopContext() { });
+
 
             //for (var i = 0; i < 3; i++)
             //{

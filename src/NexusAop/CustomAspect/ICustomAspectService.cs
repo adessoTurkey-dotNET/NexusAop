@@ -8,7 +8,7 @@ namespace NexusAop.CustomAspect
 {
     public interface ICustomAspectService
     {
-        void Start(Dictionary<string, object> attributes);
+        void Start(List<object> attributes);
 
     }
 }

@@ -7,7 +7,7 @@ namespace NexusAop
 {
     public class NexusAopContext
     {
-        public IServiceCollection Services { get; set; }
+        public IServiceProvider Services { get; set; }
         public MethodInfo TargetMethod { get; set; }
         public object Target { get; set; }
         public object[] TargetMethodsArgs { get; set; }

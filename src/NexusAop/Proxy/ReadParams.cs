@@ -13,43 +13,24 @@ namespace NexusAop.Proxy
 {
     public partial class NexusAopCustomProxy<TDecorated>
     {
-        protected virtual Task Read(
-            MethodInfo targetMethod,
-            object[] args)
-        {
-            if (!CheckMethod(targetMethod))
-            {
-                return Task.CompletedTask;
-            }
-
-            var key = GetAttributeKeys(targetMethod, args);
-
-            if (key is not null)
-                _nexusAopCustomService.Start(key);
-
-            return Task.CompletedTask;
-        }
-
         private bool CheckMethod(
             MethodInfo targetMethod)
         {
             return targetMethod.CustomAttributes.Any(x => x.AttributeType == typeof(CustomAspectAttribute));
         }
 
-        protected virtual Dictionary<string, object> GetAttributeKeys(
-            MethodInfo targetMethod,
-            object[] args)
+        protected virtual List<object> GetAttributeKeys(NexusAopContext context)
         {
-            var attributes = new Dictionary<string, object>();
-            var customAspectAttributes = targetMethod.GetCustomAttributes(typeof(CustomAspectAttribute), true);
+            var attributes = new List<object>();
+            var customAspectAttributes = context.TargetMethod.GetCustomAttributes(typeof(CustomAspectAttribute), true);
 
             if (customAspectAttributes.Length > 0)
             {
                 CustomAspectAttribute aspect = (CustomAspectAttribute)customAspectAttributes[0];
-
                 foreach (var property in aspect.Properties)
                 {
-                    attributes.Add(property.Key, property.Value);
+                    attributes.Add(property.Key);
+                    attributes.Add(property.Value);
                 }
             }
             return attributes;

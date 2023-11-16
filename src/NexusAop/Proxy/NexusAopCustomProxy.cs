@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using NexusAop.Cache;
 using NexusAop.CustomAspect;
-using NexusAop.Customization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,28 +13,49 @@ namespace NexusAop.Proxy
 {
     public partial class NexusAopCustomProxy<TDecorated> : DispatchProxy
     {
-        private ICustomAspectService _nexusAopCustomService;
+        private IServiceProvider _serviceProvider;
+        private TDecorated _decorated;
 
         private void SetParameters(
             TDecorated decorated,
             IServiceProvider serviceScope)
         {
+            _decorated = decorated ?? throw new ArgumentNullException(nameof(decorated));
             _logger = serviceScope.GetRequiredService<ILogger<NexusAopCustomProxy<TDecorated>>>();
-            _nexusAopCustomService = serviceScope.GetRequiredService<ICustomAspectService>();
+            _serviceProvider = serviceScope;
         }
 
         protected override object Invoke(
             MethodInfo targetMethod,
             object[] args)
         {
+            var context = new NexusAopContext
+            {
+                Services = _serviceProvider,
+                TargetMethod = targetMethod,
+                Target = _decorated,
+                TargetMethodsArgs = args
+            };
             try
             {
                 OnStartAsync(targetMethod, args).GetAwaiter().GetResult();
                 var result = CheckMethod(targetMethod);
                 if (result)
                 {
-                   var attributes = GetAttributeKeys(targetMethod, args);
-                    _nexusAopCustomService.Start(attributes);
+                    var attributes = new List<object>();
+                    var customAspectAttributes = targetMethod.GetCustomAttributes(typeof(CustomAspectAttribute), true);
+
+                    if (customAspectAttributes.Length > 0)
+                    {
+                        CustomAspectAttribute aspect = (CustomAspectAttribute)customAspectAttributes[0];
+                        foreach (var property in aspect.Properties)
+                        {
+                            attributes.Add(property.Key);
+                            attributes.Add(property.Value);
+                        }
+                        aspect.ExecuteAsync(context);
+                    }
+
                     OnCompletedAsync(targetMethod, args).GetAwaiter().GetResult();
                     return result;
                 }
@@ -55,11 +75,12 @@ namespace NexusAop.Proxy
 
         public static TDecorated Create(
             TDecorated decorated,
-            IServiceProvider serviceScope)
+            IServiceProvider serviceScope
+            )
         {
             object proxy = Create<TDecorated, NexusAopCustomProxy<TDecorated>>();
-            ((NexusAopCustomProxy<TDecorated>)proxy).SetParameters(decorated, serviceScope);
-
+            var nexusAopCustomProxy = (NexusAopCustomProxy<TDecorated>)proxy;
+            nexusAopCustomProxy.SetParameters(decorated, serviceScope);
             return (TDecorated)proxy;
         }
 

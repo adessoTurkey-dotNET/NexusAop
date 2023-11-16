@@ -11,6 +11,7 @@ namespace NexusAop.Proxy
     {
         private TDecorated _decorated;
         private INexusAopCacheService _nexusAopCacheService;
+        private IServiceProvider _serviceProvider;
         
         private void SetParameters(
             TDecorated decorated,

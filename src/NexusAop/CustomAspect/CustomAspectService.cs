@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace NexusAop.CustomAspect
 {
-    internal class CustomAspectService : ICustomAspectService
+    public class CustomAspectService : ICustomAspectService
     {
-        public void Start(Dictionary<string, object> attributes)
+        public void Start(List<object> attributes)
         {
             foreach (var item in attributes)
             {
-                Console.WriteLine($"{item.Key}: {item.Value}");
+                Console.WriteLine($"{item.ToString()}");
             }
         }
     }

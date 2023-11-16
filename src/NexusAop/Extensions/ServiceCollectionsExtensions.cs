@@ -4,7 +4,6 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using NexusAop.Cache;
 using NexusAop.CustomAspect;
-using NexusAop.Customization;
 using NexusAop.Proxy;
 
 namespace NexusAop.Extensions
@@ -53,6 +52,14 @@ namespace NexusAop.Extensions
             where TService : class, TInterface
         {
             return services.AddSingleton<TInterface, TService>()
+                .DecorateWithDispatchProxy<TInterface, NexusAopCustomProxy<TInterface>>();
+        }
+        public static IServiceCollection AddScopedeWithCustomAop<TInterface, TService>(
+            this IServiceCollection services)
+            where TInterface : class
+            where TService : class, TInterface
+        {
+            return services.AddScoped<TInterface, TService>()
                 .DecorateWithDispatchProxy<TInterface, NexusAopCustomProxy<TInterface>>();
         }
 

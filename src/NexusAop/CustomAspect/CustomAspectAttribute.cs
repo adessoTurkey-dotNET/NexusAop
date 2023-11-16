@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NexusAop.CustomAspect
 {
-    public class CustomAspectAttribute : Attribute
+    public class CustomAspectAttribute : NexusAopAttribute
     {
         public Dictionary<string, object> Properties { get; }
 
@@ -21,6 +22,19 @@ namespace NexusAop.CustomAspect
 
                 Properties[propertyName] = propertyValues[i + 1];
             }
+        }
+
+        public override Task ExecuteAsync(NexusAopContext context)
+        {
+            // User-defined logic before the target method
+            Console.WriteLine("Before invoking the target method.");
+
+            // Proceed with the execution of the target method
+            context.Next();
+
+            // User-defined logic after the target method
+            Console.WriteLine("After invoking the target method.");
+            return Task.CompletedTask;
         }
     }
 }

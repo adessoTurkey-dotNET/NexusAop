@@ -21,5 +21,6 @@ namespace NexusAop.Console.Service
 
         [CustomAspect("Property1", "Value1", "Property2", 42, "Property3", true)]
         void MyMethod();
+
     }
 }
