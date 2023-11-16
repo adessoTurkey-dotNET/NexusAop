@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NexusAop.Cache;
+using NexusAop.Console.CustomAspect;
 using NexusAop.Console.Repository;
 using NexusAop.Console.Service;
-using NexusAop.CustomAspect;
 using NexusAop.Extensions;
 using NexusAop.Proxy;
 
@@ -26,6 +26,8 @@ namespace NexusAop.Console
             //serviceCollection.AddSingletonWithAop<ITestService, TestService>();
             serviceCollection.AddSingletonWithCustomAop<ITestService, TestService>();
             serviceCollection.AddSingleton<IFooRepository, FooRepository>();
+            serviceCollection.AddSingleton<ICustomAspectService, CustomAspectService>();
+
             serviceCollection.AddLogging(configure =>
             {
                 configure.AddConsole();

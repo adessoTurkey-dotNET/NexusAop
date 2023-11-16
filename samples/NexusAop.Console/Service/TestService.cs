@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NexusAop.Console.Models;
 using NexusAop.Console.Repository;
-using NexusAop.CustomAspect;
 
 namespace NexusAop.Console.Service
 {

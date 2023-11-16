@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using NexusAop.Cache;
+using NexusAop.Console.CustomAspect;
 using NexusAop.Console.Models;
-using NexusAop.CustomAspect;
 
 namespace NexusAop.Console.Service
 {

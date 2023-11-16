@@ -1,4 +1,3 @@
-using NexusAop.CustomAspect;
 using System.Threading.Tasks;
 
 namespace NexusAop.Console

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NexusAop.CustomAspect
+namespace NexusAop.Console.CustomAspect
 {
     public class CustomAspectAttribute : NexusAopAttribute
     {
@@ -27,13 +27,13 @@ namespace NexusAop.CustomAspect
         public override Task ExecuteAsync(NexusAopContext context)
         {
             // User-defined logic before the target method
-            Console.WriteLine("Before invoking the target method.");
+            System.Console.WriteLine("Before invoking the target method.");
 
             // Proceed with the execution of the target method
             context.Next();
 
             // User-defined logic after the target method
-            Console.WriteLine("After invoking the target method.");
+            System.Console.WriteLine("After invoking the target method.");
             return Task.CompletedTask;
         }
     }

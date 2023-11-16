@@ -14,7 +14,6 @@ namespace NexusAop.Extensions
             this IServiceCollection services)
         {
             services.AddSingleton<INexusAopCacheService, InmemoryNexusAopCacheService>();
-            services.AddSingleton<ICustomAspectService, CustomAspectService>();
 
             return services;
         }

@@ -43,16 +43,12 @@ namespace NexusAop.Proxy
                 if (result)
                 {
                     var attributes = new List<object>();
-                    var customAspectAttributes = targetMethod.GetCustomAttributes(typeof(CustomAspectAttribute), true);
+                    var customAspectAttributes = targetMethod.GetCustomAttributes(typeof(NexusAopAttribute), true);
 
                     if (customAspectAttributes.Length > 0)
                     {
-                        CustomAspectAttribute aspect = (CustomAspectAttribute)customAspectAttributes[0];
-                        foreach (var property in aspect.Properties)
-                        {
-                            attributes.Add(property.Key);
-                            attributes.Add(property.Value);
-                        }
+                        var aspect = (NexusAopAttribute)customAspectAttributes[0];
+                      
                         aspect.ExecuteAsync(context);
                     }
 

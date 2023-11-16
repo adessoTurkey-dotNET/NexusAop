@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace NexusAop.CustomAspect
+namespace NexusAop.Console.CustomAspect
 {
     public class CustomAspectService : ICustomAspectService
     {
@@ -12,7 +8,7 @@ namespace NexusAop.CustomAspect
         {
             foreach (var item in attributes)
             {
-                Console.WriteLine($"{item.ToString()}");
+                System.Console.WriteLine($"{item.ToString()}");
             }
         }
     }
