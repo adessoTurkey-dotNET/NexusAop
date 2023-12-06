@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NexusAop.Cache;
-using NexusAop.CustomAspect;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NexusAop.Proxy
 {
@@ -39,27 +34,18 @@ namespace NexusAop.Proxy
             try
             {
                 OnStartAsync(targetMethod, args).GetAwaiter().GetResult();
-                var result = CheckMethod(targetMethod);
-                if (result)
-                {
-                    var attributes = new List<object>();
-                    var customAspectAttributes = targetMethod.GetCustomAttributes(typeof(NexusAopAttribute), true);
+                var result = new object();
+                var attributes = new List<object>();
+                var customAspectAttributes = targetMethod.GetCustomAttributes(typeof(NexusAopAttribute), true);
 
-                    if (customAspectAttributes.Length > 0)
-                    {
-                        var aspect = (NexusAopAttribute)customAspectAttributes[0];
-                      
-                        aspect.ExecuteAsync(context);
-                    }
-
-                    OnCompletedAsync(targetMethod, args).GetAwaiter().GetResult();
-                    return result;
-                }
-                else
+                if (customAspectAttributes.Length > 0)
                 {
-                    OnInvalidMethod(targetMethod, args).GetAwaiter().GetResult();
+                    var aspect = (NexusAopAttribute)customAspectAttributes[0];
+                    aspect.ExecuteAsync(context).GetAwaiter().GetResult();
+                    result = context.Result;
                 }
 
+                OnCompletedAsync(targetMethod, args).GetAwaiter().GetResult();
                 return result;
             }
             catch (Exception exception)

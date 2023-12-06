@@ -1,7 +1,7 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace NexusAop
 {
@@ -12,31 +12,74 @@ namespace NexusAop
         public object Target { get; set; }
         public object[] TargetMethodsArgs { get; set; }
         public object Result { get; set; }
-        public Task<object> NextAsync()
+
+
+        public async Task<object> NextAsync()
         {
-            //void döbderse
-            //task dönderse
-            //task<t> dönderse:  await t didkat
-            
-             var result = TargetMethod.Invoke(Target, TargetMethodsArgs);
-             this.Result = result;
-             return result;
+            if (TargetMethod.ReturnType == typeof(void))
+            {
+                // void 
+                TargetMethod.Invoke(Target, TargetMethodsArgs);
+                return null;
+            }
+            else if (TargetMethod.ReturnType == typeof(Task))
+            {
+                // task 
+                var task = Task.Factory.StartNew(() => TargetMethod.Invoke(Target, TargetMethodsArgs));
+                var result = await task;
+                return result;
+            }
+            else if (TargetMethod.ReturnTypeCustomAttributes is not null)
+            {
+                // task<t> or t
+                var result = await Task.Factory.StartNew(() => (object)TargetMethod.Invoke(Target, TargetMethodsArgs));
+                return result;
+            }
+            else return null;
+        }
+        public async Task<object> SetResultAsync(object result)
+        {
+            if (result == null)
+            {
+                this.Result = new object();
+                return this.Result;
+            }
+
+            if (IsTask(result))
+            {
+                dynamic task = result;
+
+                var genricArgs = result.GetType().GenericTypeArguments;
+
+                if (genricArgs.Length > 0)
+                {
+                    if (genricArgs.First().Name.Contains("VoidTask"))
+                    {
+                        //Task
+                        this.Result = Task.CompletedTask;
+                    }
+                    else
+                    {
+                        //Task<T>
+                        this.Result = task;
+                    }
+                }
+            }
+            else
+            {
+                // The result is not a Task, return it directly
+                this.Result = result;
+            }
+            return this.Result;
+        }
+        public static bool IsTask(object obj)
+        {
+            return obj.GetType().IsGenericType;
         }
 
-        public void SetTaskResult(object result)
+        public static bool IsGenericTask(object obj)
         {
-            //if result is null
-            //if methods is async
-
-            this.Result = Task.FromResult(result);
-        }
-        
-        public void SetResult(object result)
-        {
-            //if result is null
-            //if methods is async
-            
-            this.Result = result
+            return obj.GetType().GetGenericTypeDefinition() == typeof(Task<>);
         }
     }
 
