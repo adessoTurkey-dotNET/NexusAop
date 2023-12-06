@@ -20,7 +20,7 @@ namespace NexusAop
             {
                 // void 
                 TargetMethod.Invoke(Target, TargetMethodsArgs);
-                return null;
+                return new object();
             }
             else if (TargetMethod.ReturnType == typeof(Task))
             {
@@ -37,41 +37,37 @@ namespace NexusAop
             }
             else return null;
         }
-        public async Task<object> SetResultAsync(object result)
+        public async Task<object> SetResultAsync()
         {
-            if (result == null)
+            if (TargetMethod.ReturnType == typeof(void))
             {
+                // void 
                 this.Result = new object();
-                return this.Result;
             }
-
-            if (IsTask(result))
+            else if (TargetMethod.ReturnType == typeof(Task))
             {
-                dynamic task = result;
-
-                var genricArgs = result.GetType().GenericTypeArguments;
-
-                if (genricArgs.Length > 0)
-                {
-                    if (genricArgs.First().Name.Contains("VoidTask"))
-                    {
-                        //Task
-                        this.Result = Task.CompletedTask;
-                    }
-                    else
-                    {
-                        //Task<T>
-                        this.Result = task;
-                    }
-                }
+                // task 
+                var task = Task.Factory.StartNew(() => TargetMethod.Invoke(Target, TargetMethodsArgs));
+                var result = await task;
+                this.Result = task;
+            }
+            else if (TargetMethod.ReturnType == typeof(Task) && TargetMethod.ReturnType.IsGenericType)
+            {
+                // task<t> or t
+                var result = await Task.Factory.StartNew(() => (object)TargetMethod.Invoke(Target, TargetMethodsArgs));
+                this.Result = result;
             }
             else
             {
-                // The result is not a Task, return it directly
-                this.Result = result;
+                this.Result = TargetMethod.Invoke(Target, TargetMethodsArgs);
             }
+
+            System.Console.WriteLine("Method name : " + TargetMethod.Name);
+            System.Console.WriteLine("RESULT : " + this.Result.ToString());
+
             return this.Result;
         }
+
         public static bool IsTask(object obj)
         {
             return obj.GetType().IsGenericType;

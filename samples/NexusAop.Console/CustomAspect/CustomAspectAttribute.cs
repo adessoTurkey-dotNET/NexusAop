@@ -33,7 +33,7 @@ namespace NexusAop.Console.CustomAspect
             
             var result=await context.NextAsync();
             
-            var setResult= await context.SetResultAsync(result);
+            var setResult= await context.SetResultAsync();
 
             // User-defined logic after the target method
             //System.Console.WriteLine("After invoking the target method.");

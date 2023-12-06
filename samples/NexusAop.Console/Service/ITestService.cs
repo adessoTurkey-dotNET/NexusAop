@@ -5,16 +5,16 @@ namespace NexusAop.Console.Service
 {
     public interface ITestService
     {       
-        [CustomAspect("Property1", "Value1", "Property2", 42, "Property3", true)]
+        [CustomAspect]
         void MyVoidMethod();
 
         [CustomAspect]
         string MyStringMethod();
 
-        [CustomAspect("Property1", "Value1", "Property2", 42, "Property3", true)]
+        [CustomAspect]
         Task MyMethodTask();
 
-        [CustomAspect("Property1", "Value1", "Property2", 42, "Property3", true)]
+        [CustomAspect]
         Task<string> MyMethodTaskReturnString();
 
     }
