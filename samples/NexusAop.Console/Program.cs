@@ -26,42 +26,15 @@ namespace NexusAop.Console
 
             var svc = provider.GetRequiredService<ITestService>();
 
-            try
-            {
-                svc.MyStringMethod();
-            }
-            catch (Exception ex)
-            {
-            }
 
-            try
-            {
+            svc.MyStringMethod();
 
-                svc.MyVoidMethod();
-            }
-            catch (Exception ex)
-            {
-            }
+            svc.MyVoidMethod();
 
+            await svc.MyMethodTask();
 
-            try
-            {
-                await svc.MyMethodTask();
+            await svc.MyMethodTaskReturnString();
 
-            }
-            catch (Exception ex)
-            {
-            }
-
-            try
-            {
-                await svc.MyMethodTaskReturnString();
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
 
         }
     }
