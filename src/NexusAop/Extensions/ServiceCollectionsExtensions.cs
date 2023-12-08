@@ -2,57 +2,26 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using NexusAop.Cache;
-using NexusAop.CustomAspect;
-using NexusAop.Customization;
 using NexusAop.Proxy;
 
 namespace NexusAop.Extensions
 {
     public static class ServiceCollectionsExtensions
     {
-        public static IServiceCollection AddNexusAop(
-            this IServiceCollection services)
-        {
-            services.AddSingleton<INexusAopCacheService, InmemoryNexusAopCacheService>();
-            services.AddSingleton<ICustomAspectService, CustomAspectService>();
-
-            return services;
-        }
-        
-        public static IServiceCollection AddSingletonWithAop<TInterface, TService>(
-            this IServiceCollection services)
-            where TInterface: class
-            where TService : class, TInterface
-        {
-            return services.AddSingleton<TInterface, TService>()
-                .DecorateWithDispatchProxy<TInterface, NexusAopProxy<TInterface>>();
-        }
-
-        public static IServiceCollection AddScopedWithAop<TInterface, TService>(
-            this IServiceCollection services)
-            where TInterface: class
-            where TService : class, TInterface
-        {
-            return services.AddScoped<TInterface, TService>()
-                .DecorateWithDispatchProxy<TInterface, NexusAopProxy<TInterface>>();
-        }
-
-        public static IServiceCollection AddTransientWithAop<TInterface, TService>(
-            this IServiceCollection services)
-            where TInterface: class
-            where TService : class, TInterface
-        {
-            return services.AddTransient<TInterface, TService>()
-                .DecorateWithDispatchProxy<TInterface, NexusAopProxy<TInterface>>();
-        }
-
         public static IServiceCollection AddSingletonWithCustomAop<TInterface, TService>(
             this IServiceCollection services)
             where TInterface : class
             where TService : class, TInterface
         {
             return services.AddSingleton<TInterface, TService>()
+                .DecorateWithDispatchProxy<TInterface, NexusAopCustomProxy<TInterface>>();
+        }
+        public static IServiceCollection AddScopedeWithCustomAop<TInterface, TService>(
+            this IServiceCollection services)
+            where TInterface : class
+            where TService : class, TInterface
+        {
+            return services.AddScoped<TInterface, TService>()
                 .DecorateWithDispatchProxy<TInterface, NexusAopCustomProxy<TInterface>>();
         }
 
