@@ -1,13 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>		
+		<PackageId>AdsPush</PackageId>
+        <Authors>Anil Dursun SENEL, Asli YIGIT</Authors>
+        <PackageTags>aop;reflection;attribute;dispatch proxy;cache</PackageTags>
+        <Description>NexusAop is a powerful and flexible library for reflection and aspect-oriented programming (AOP) in .NET 5.0. This library enables developers to easily apply cross-cutting concerns to their applications by utilizing custom attributes. With NexusAop, you can interrupt method executions, perform specific actions, and retrieve results seamlessly.
+          </Description>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageProjectUrl>https://github.com/adessoTurkey-dotNET/NexusAop</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/adessoTurkey-dotNET/NexusAop</RepositoryUrl>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <Copyright>Copyright (c) 2023, Anıl Dursun ŞENEL , Asli YIGIT</Copyright>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <ProduceReferenceAssemblyInOutDir>true</ProduceReferenceAssemblyInOutDir>	
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0-rc.1.21451.13" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0-rc.1.21451.13" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="NewFolder\" />
     </ItemGroup>
 
 </Project>

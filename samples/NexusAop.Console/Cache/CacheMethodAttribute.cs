@@ -43,7 +43,7 @@ namespace NexusAop.Console.Cache
                 return;
             }
 
-            result = await context.SetResultAsync();
+            result = await context.ExecuteAndGetResultAsync();
             await SetCacheAsync(context.TargetMethod, context.TargetMethodsArgs,result);
         }
 

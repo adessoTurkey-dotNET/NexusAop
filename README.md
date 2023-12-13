@@ -37,7 +37,7 @@ NexusAop empowers developers to embrace the principles of AOP by providing a str
 2. <b>Method Interruption:</b> <br />
 Leverage the NextAsync() method to interrupt the execution of a method and perform specific actions before allowing the method to continue. This allows for dynamic and context-aware behavior in your applications.
 3. <b>Result Retrieval:</b> <br />
-Utilize the SetResultAsync() method to retrieve the result of the related method. This feature is particularly useful when you need to capture and manipulate the output of a method in a controlled manner. 
+Utilize the ExecuteAndGetResultAsync() method to retrieve the result of the related method. This feature is particularly useful when you need to capture and manipulate the output of a method in a controlled manner. 
 4. <b>Custom Attributes:</b> <br />
 Easily create and apply custom attributes to your methods, enabling a clean and declarative way to define aspects. Custom attributes in NexusAop serve as the building blocks for weaving cross-cutting concerns into your application.
 5. <b>.NET 5.0 Compatibility:</b> <br />
@@ -61,7 +61,7 @@ public async Task<int> MyMethodAsync()
 ```
 3. <b>Integrate Aspect-Oriented Behavior: </b><br />
 
-Use the provided methods such as NextAsync() and SetResultAsync() within your custom aspects to influence the method execution flow.
+Use the provided methods such as NextAsync() and ExecuteAndGetResultAsync() within your custom aspects to influence the method execution flow.
 
 ```csharp
 public class CustomAspectAttribute : NexusAopAttribute
@@ -76,7 +76,7 @@ public class CustomAspectAttribute : NexusAopAttribute
         // User-defined logic after the target method
 
         // Get the result if you needed
-        var setResult= await context.SetResultAsync();
+        var setResult= await context.ExecuteAndGetResultAsync();
 
         return result;
     }
@@ -117,7 +117,7 @@ public class CacheMethodAttribute : NexusAopAttribute
                 return;
             }
 
-            result = await context.SetResultAsync();
+            result = await context.ExecuteAndGetResultAsync();
             await SetCacheAsync(context.TargetMethod, context.TargetMethodsArgs,result);
         }
 

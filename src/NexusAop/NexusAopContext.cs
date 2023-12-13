@@ -37,7 +37,7 @@ namespace NexusAop
             }
             else return null;
         }
-        public async Task<object> SetResultAsync()
+        public async Task<object> ExecuteAndGetResultAsync()
         {
             if (TargetMethod.ReturnType == typeof(void))
             {
