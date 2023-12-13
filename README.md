@@ -27,8 +27,9 @@
 # Table Of Content
 1. [Features](#features)
 2. [Get It Started](#get-it-started)
-3. [Contributions](#contributions)
-4. [License](#license)
+3. [Cache Attribute Example](#cache-example)
+4. [Contributions](#contributions)
+5. [License](#license)
       
 # Features
 1. <b>Aspect-Oriented Programming (AOP):</b> <br />
@@ -84,7 +85,47 @@ public class CustomAspectAttribute : NexusAopAttribute
 4. <b>Build and Run: </b><br />
 
 Build your project, and NexusAop will seamlessly weave the specified aspects into your methods during runtime.
+# Cache Attribute Example
+```csharp
+public class CacheMethodAttribute : NexusAopAttribute
+    {
+        public CacheMethodAttribute(
+                int ttlAsSecond)
+        {
+            Ttl = TimeSpan.FromSeconds(ttlAsSecond);
+        }
 
+        public CacheMethodAttribute()
+        {
+            Ttl = null;
+        }
+
+        public TimeSpan? Ttl { get; set; }
+
+        public override async Task ExecuteAsync(NexusAopContext context)
+        {
+            if (!CheckMethodCacheable(context.TargetMethod))
+            {
+                return;
+            }
+            var cacheKey = GetCacheKey(context.TargetMethod, context.TargetMethodsArgs);
+            var result = GetResult(cacheKey);
+
+            if (result != null)
+            {
+                context.Result= result;
+                return;
+            }
+
+            result = await context.SetResultAsync();
+            await SetCacheAsync(context.TargetMethod, context.TargetMethodsArgs,result);
+        }
+
+        // ...
+        // see CacheMethodAttribute.cs in /Samples/Cache for other logics
+        // ...
+  }
+```
 # Contributions
 Contributions are welcome! If you encounter any issues or have suggestions for improvements, please feel free to create an issue or submit a pull request.
 
