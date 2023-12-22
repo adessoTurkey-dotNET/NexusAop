@@ -130,7 +130,7 @@ public class CacheMethodAttribute : NexusAopAttribute
 Contributions are welcome! If you encounter any issues or have suggestions for improvements, please feel free to create an issue or submit a pull request.
 
 # License
-This project is licensed under the MIT License.
+This project is licensed under the BSD 3-Clause License.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/adessoTurkey-dotNET/NexusAop.svg?style=for-the-badge
