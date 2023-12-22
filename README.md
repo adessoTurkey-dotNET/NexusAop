@@ -49,17 +49,25 @@ To start using NexusAop in your .NET 5.0 project, follow these simple steps:
 1. <b>Install the Package:</b><br />
 
 ` dotnet add package NexusAop `<br /><br />
-2. <b>Apply Custom Attributes:</b><br />
+2. <b>Service Implementation:</b><br />
+
+```csharp
+serviceCollection.AddSingletonWithCustomAop<ITestService, TestService>();
+```
+3. <b>Apply Custom Attributes:</b><br />
 
 Decorate your methods with custom attributes to define the desired cross-cutting concerns.
 ```csharp
-[CustomAspect]
-public async Task<int> MyMethodAsync()
+public class TestService : ITestService
 {
-    // Your method implementation
+  [CustomAspect]
+  public async Task<int> MyMethodAsync()
+  {
+      // Your method implementation
+  }
 }
 ```
-3. <b>Integrate Aspect-Oriented Behavior: </b><br />
+4. <b>Integrate Aspect-Oriented Behavior: </b><br />
 
 Use the provided methods such as NextAsync() and ExecuteAndGetResultAsync() within your custom aspects to influence the method execution flow.
 
@@ -82,7 +90,7 @@ public class CustomAspectAttribute : NexusAopAttribute
     }
 }
 ```
-4. <b>Build and Run: </b><br />
+5. <b>Build and Run: </b><br />
 
 Build your project, and NexusAop will seamlessly weave the specified aspects into your methods during runtime.
 # Cache Attribute Example
